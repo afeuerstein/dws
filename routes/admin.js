@@ -1,4 +1,5 @@
 const express = require('express');
+const nav = require('../util/navigation').getNav("admin");
 const Account = require('../models/account');
 const adminRouter = express.Router();
 
@@ -10,13 +11,27 @@ adminRouter.use((req, res, next) => {
     } else next();
 });
 
-adminRouter.get('/', (req, res) => {
+adminRouter.get('/', (req, res) => { res.redirect('/admin/userlist') });
+
+adminRouter.get('/userlist', (req, res) => {
     let query = Account.find({});
+    let page = 'userlist';
     query.exec((err, result) => {
-        res.render('userlist', {
+        res.render(page, {
             title: 'Benutzerverwaltung',
+            nav,
             users: result,
+            pagename: page
         });
+    });
+});
+
+adminRouter.get('/adduser', (req, res) => {
+    let page = 'adduser';
+    res.render(page, {
+        title: 'Nutzer Registrieren',
+        nav,
+        pagename: page
     });
 });
 

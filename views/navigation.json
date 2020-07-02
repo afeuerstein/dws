@@ -1,0 +1,15 @@
+[{
+        "filename": "userlist",
+        "router": "admin",
+        "title": "Benutzerverwaltung",
+        "icon": "fa-users-cog",
+        "href": "/admin/userlist"
+    },
+    {
+        "filename": "adduser",
+        "router": "admin",
+        "title": "Nutzer Registrieren",
+        "icon": "fa-user-plus",
+        "href": "/admin/adduser"
+    }
+]

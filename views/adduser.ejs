@@ -105,94 +105,32 @@
                 <!-- Default box -->
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Benutzer</h3>
-
-                        <div class="card-body p-0">
-                            <table class="table table-striped projects">
-                                <thead>
-                                    <tr>
-                                        <th style="width: 20%">
-                                            ID
-                                        </th>
-                                        <th style="width: 20%">
-                                            E-Mail
-                                        </th>
-                                        <th>
-                                            Vorname
-                                        </th>
-                                        <th>
-                                            Nachname
-                                        </th>
-                                        <th style="width: 8%">
-                                            Status
-                                        </th>
-                                        <th style="width: 8%">
-                                            Admin
-                                        </th>
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-                                    <%for (let i = 0; i < users.length; i++) {%>
-                                        <tr>
-                                            <td>
-                                                <%=users[i]._id%>
-                                            </td>
-                                            <td>
-                                                <a>
-                                                    <%=users[i].username%>
-                                                </a>
-                                            </td>
-                                            <td>
-                                                <p>
-                                                    <%=users[i].firstname%>
-                                                </p>
-                                            </td>
-                                            <td>
-                                                <p>
-                                                    <%=users[i].lastname%>
-                                                </p>
-                                            </td>
-                                            <td>
-                                                <%if (users[i].registration_status == 'pending') {%>
-                                                    <p>Registrierung ausstehend</p>
-                                                    <%} else {%>
-                                                        <p>Registrierung abgeschlossen</p>
-                                                        <%}%>
-                                            </td>
-                                            <td>
-                                                <%=users[i].admin%>
-                                            </td>
-                                            <%}%>
-                                        </tr>
-
-                                </tbody>
-                            </table>
-                        </div>
-
+                        <h1>TODO</h1>
+                    </div>
+                </div>
             </section>
             <!-- /.content -->
-            </div>
-            <!-- /.content-wrapper -->
+        </div>
+        <!-- /.content-wrapper -->
 
-            <footer class="main-footer">
-                <strong>Copyright &copy; 2020 DWS Inc.</strong> All rights reserved.
-            </footer>
+        <footer class="main-footer">
+            <strong>Copyright &copy; 2020 DWS Inc.</strong> All rights reserved.
+        </footer>
 
-            <!-- Control Sidebar -->
-            <aside class="control-sidebar control-sidebar-dark">
-                <!-- Control sidebar content goes here -->
-            </aside>
-            <!-- /.control-sidebar -->
-            </div>
-            <!-- /wrapper -->
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Control sidebar content goes here -->
+        </aside>
+        <!-- /.control-sidebar -->
+    </div>
+    <!-- /wrapper -->
 
-            <!-- jQuery -->
-            <script src="/plugins/jquery/jquery.min.js"></script>
-            <!-- Bootstrap 4 -->
-            <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-            <!-- AdminLTE App -->
-            <script src="/dist/js/adminlte.min.js"></script>
-            <!-- AdminLTE for demo purposes -->
-            <script src="/dist/js/demo.js"></script>
+    <!-- jQuery -->
+    <script src="/plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="/dist/js/adminlte.min.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="/dist/js/demo.js"></script>
 </body>

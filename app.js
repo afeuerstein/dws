@@ -33,7 +33,9 @@ app.set('views', './views');
 app.set('view engine', 'ejs');
 
 const authRouter = require('./routes/auth');
+const adminRouter = require('./routes/admin');
 app.use('/auth', authRouter);
+app.use('/admin', adminRouter);
 
 var Account = require('./models/account');
 passport.use(new LocalStrategy(Account.authenticate()));
@@ -41,9 +43,13 @@ passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());
 
 app.get('/', (req, res) => {
-    res.send(200);
+    res.send(`User: ${req.user}`);
 });
 
 app.listen(3000, () => {
     debug(chalk.green("Server listening on port 3000."));
+});
+
+app.use((req, res, next) => {
+    res.status(404).render("404");
 });

@@ -8,7 +8,7 @@ authRouter.get('/', function(req, res) {
 });
 
 authRouter.get('/register', function(req, res) {
-    res.render('register', {});
+    res.render('register', { user: req.user });
 });
 
 authRouter.post('/register', function(req, res) {
@@ -35,10 +35,5 @@ authRouter.get('/logout', function(req, res) {
     req.logout();
     res.redirect('/');
 });
-
-authRouter.get('/ping', function(req, res) {
-    res.status(200).send("pong!");
-});
-
 
 module.exports = authRouter;

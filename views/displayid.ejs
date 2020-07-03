@@ -105,15 +105,14 @@
                 <!-- Default box -->
                 <div class="card">
                     <div class="card-header">
-                        <form action="/admin/adduser" method="post">
-                            <label>Email</label>
-                            <input type="text" class="form-control" name="email" placeholder="mail@example.de">
-                            <label>Vorname</label>
-                            <input type="text" class="form-control" name="firstname" placeholder="Max">
-                            <label>Nachname</label>
-                            <input type="text" class="form-control" name="lastname" placeholder="Mustermann">
-                            <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Senden</button>
-                        </form>
+                        <label>Email</label>
+                        <input type="text" class="form-control" name="email" placeholder="mail@example.de" disabled="">
+                        <label>Vorname</label>
+                        <input type="text" class="form-control" name="firstname" placeholder="Max" disabled="">
+                        <label>Nachname</label>
+                        <input type="text" class="form-control" name="lastname" placeholder="Mustermann" disabled="">
+                        <label>Auth-ID</label>
+                        <input type="text" class="form-control" disabled="">
                     </div>
                 </div>
             </section>
@@ -141,4 +140,13 @@
     <script src="/dist/js/adminlte.min.js"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="/dist/js/demo.js"></script>
+
+    <script>
+        $(function() {
+            $('input.form-control:nth-child(2)').val("<%=email%>");
+            $('input.form-control:nth-child(4)').val("<%=firstname%>");
+            $('input.form-control:nth-child(6)').val("<%=lastname%>");
+            $('input.form-control:nth-child(8)').val("<%=auth_id%>");
+        });
+    </script>
 </body>

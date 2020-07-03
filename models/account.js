@@ -8,6 +8,7 @@ var Account = new Schema({
     firstname: String,
     lastname: String,
     registration_status: { type: String, default: 'pending' },
+    auth_id: String,
     admin: { type: Boolean, default: false },
 });
 

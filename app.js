@@ -43,7 +43,9 @@ passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());
 
 app.get('/', (req, res) => {
-    res.send(`User: ${req.user}`);
+    res.render('index', {
+        user: req.user,
+    });
 });
 
 app.listen(3000, () => {

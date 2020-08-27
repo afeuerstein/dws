@@ -12,24 +12,11 @@ authRouter.get('/register', function(req, res) {
 });
 
 authRouter.post('/register', function(req, res) {
-    /*Account.register(new Account({ username: req.body.username }), req.body.password, function(err, account) {
-        if (err) {
-            return res.render('register', { account: account });
-        }
-
-        passport.authenticate('local')(req, res, function() {
-            res.redirect('/');
-        });
-    });*/
-
-
     let query = Account.findOne({ auth_id: req.body.auth_id });
     query.exec((err, result) => {
         if (result.registration_status == 'pending') {
             result.registration_status = 'complete';
             result.setPassword(req.body.password, () => {
-
-                console.log(result);
                 result.save();
             });
             res.redirect('/auth/login');

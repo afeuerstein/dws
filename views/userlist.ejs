@@ -129,6 +129,9 @@
                                         <th style="width: 8%">
                                             Admin
                                         </th>
+                                        <th style="width: 8%">
+                                            Bearbeitung
+                                        </th>
                                     </tr>
                                 </thead>
 
@@ -162,6 +165,9 @@
                                             </td>
                                             <td>
                                                 <%=users[i].admin%>
+                                            </td>
+                                            <td>
+                                                <a href="/admin/userdetail/<%=users[i]._id%>">Nutzer Bearbeiten</a>
                                             </td>
                                             <%}%>
                                         </tr>

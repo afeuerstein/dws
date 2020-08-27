@@ -65,4 +65,25 @@ adminRouter.post('/adduser', (req, res) => {
     });
 });
 
+adminRouter.get('/userdetail/:userID', (req, res) => {
+    Account.findById(req.params.userID, (err, user) => {
+        if (err) throw err;
+        res.render('userdetail', {
+            title: 'Details  zu ' + user.lastname,
+            user,
+            nav,
+            pagename: "userdetail",
+        });
+    });
+});
+
+adminRouter.post('/reset_authid/:userID', (req, res) => {
+    Account.findById(req.params.userID, (err, user) => {
+        if (err) throw err;
+        user.auth_id = randomString(32);
+        user.save();
+        res.render('success');
+    });
+});
+
 module.exports = adminRouter;

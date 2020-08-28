@@ -25,23 +25,21 @@ adminRouter.get('/', (req, res) => { res.redirect('/admin/userlist') });
 
 adminRouter.get('/userlist', (req, res) => {
     let query = Account.find({});
-    let page = 'userlist';
     query.exec((err, result) => {
-        res.render(page, {
+        res.render('admin/userlist', {
             title: 'Benutzerverwaltung',
             nav,
             users: result,
-            pagename: page
+            pagename: 'userlist'
         });
     });
 });
 
 adminRouter.get('/adduser', (req, res) => {
-    let page = 'adduser';
-    res.render(page, {
+    res.render('admin/adduser', {
         title: 'Nutzer Registrieren',
         nav,
-        pagename: page
+        pagename: 'adduser'
     });
 });
 
@@ -54,7 +52,7 @@ adminRouter.post('/adduser', (req, res) => {
         auth_id,
     });
     newUser.save();
-    res.render('displayid', {
+    res.render('admin/displayid', {
         title: 'Auth-ID von ' + req.body.lastname,
         lastname: req.body.lastname,
         firstname: req.body.firstname,
@@ -68,7 +66,7 @@ adminRouter.post('/adduser', (req, res) => {
 adminRouter.get('/userdetail/:userID', (req, res) => {
     Account.findById(req.params.userID, (err, user) => {
         if (err) throw err;
-        res.render('userdetail', {
+        res.render('admin/userdetail', {
             title: 'Details  zu ' + user.lastname,
             user,
             nav,

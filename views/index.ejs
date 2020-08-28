@@ -31,31 +31,31 @@
                 <h4 class="login-box-msg">Digitales Wählen</h4>
 
                 <%if (!user) {%>
-                    <div class="text-center">
-                        <a href="/auth/login" class="text-center">Anmelden</a><br>
-                        <a href="/auth/register" class="text-center">Registrieren</a><br>
-                    </div>
-                    <%} else {%>
-                        <div class="text-center">
-                            <a href="/dashboard" class="text-center">Zum Dashboard</a><br>
-                            <%if (user.admin) {%><a href="/admin" class="text-center">Zum Administrator-Dashboard</a><br>
-                                <%}%>
+                <div class="text-center">
+                    <a href="/auth/login" class="text-center">Anmelden</a><br>
+                    <a href="/auth/register" class="text-center">Registrieren</a><br>
+                </div>
+                <%} else {%>
+                <div class="text-center">
+                    <a href="/vote" class="text-center">Zum Dashboard</a><br>
+                    <%if (user.admin) {%><a href="/admin" class="text-center">Zum Administrator-Dashboard</a><br>
+                    <%}%>
                                     <a href="/auth/logout" class="text-center">Abmelden</a><br>
                         </div>
                         <%}%>
 
+                </div>
+                <!-- /.login-card-body -->
             </div>
-            <!-- /.login-card-body -->
         </div>
-    </div>
-    <!-- /.login-box -->
+        <!-- /.login-box -->
 
-    <!-- jQuery -->
-    <script src="../../plugins/jquery/jquery.min.js"></script>
-    <!-- Bootstrap 4 -->
-    <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- AdminLTE App -->
-    <script src="../../dist/js/adminlte.min.js"></script>
+        <!-- jQuery -->
+        <script src="../../plugins/jquery/jquery.min.js"></script>
+        <!-- Bootstrap 4 -->
+        <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <!-- AdminLTE App -->
+        <script src="../../dist/js/adminlte.min.js"></script>
 
 </body>
 

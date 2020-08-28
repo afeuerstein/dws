@@ -34,10 +34,13 @@ app.set('view engine', 'ejs');
 
 const authRouter = require('./routes/auth');
 const adminRouter = require('./routes/admin');
+const voteRouter = require('./routes/vote');
+app.use('/vote', voteRouter);
 app.use('/auth', authRouter);
 app.use('/admin', adminRouter);
 
 var Account = require('./models/account');
+const { request } = require('express');
 passport.use(new LocalStrategy(Account.authenticate()));
 passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());

@@ -8,7 +8,7 @@ authRouter.get('/', function(req, res) {
 });
 
 authRouter.get('/register', function(req, res) {
-    res.render('register', { user: req.user });
+    res.render('auth/register', { user: req.user });
 });
 
 authRouter.post('/register', function(req, res) {
@@ -28,7 +28,7 @@ authRouter.post('/register', function(req, res) {
 });
 
 authRouter.get('/login', function(req, res) {
-    res.render('login', { user: req.user });
+    res.render('auth/login', { user: req.user });
 });
 
 authRouter.post('/login', passport.authenticate('local'), function(req, res) {

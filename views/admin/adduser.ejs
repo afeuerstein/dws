@@ -77,7 +77,7 @@
                     <% for (let i = 0; i < nav.length; i++) { %>
                     <li class="nav-item">
                         <a href="<%= nav[i].href %>"
-                           class="nav-link <% if (nav[i].filename == pagename) { %> active <% } %>">
+                           class="nav-link <% if (nav[i].filename === pagename) { %> active <% } %>">
                             <i class="nav-icon fas <%= nav[i].icon %>"></i>
                             <p>
                                 <%= nav[i].title %>

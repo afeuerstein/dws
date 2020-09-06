@@ -7,12 +7,21 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
 
 mongoose.connect('mongodb://localhost/dws', { useUnifiedTopology: true, useNewUrlParser: true }, function(err) {
     if (err) throw err;
     debug('Database connected!');
+});
+
+//check if a user exists in the database, if not, run user setup
+var Account = require('./models/account');
+const userSetup = require('./util/usersetup');
+Account.find({}, (err, res) => {
+    if (!res.length) {
+        userSetup.userSetup(Account);
+    }
 });
 
 var app = express();
@@ -39,8 +48,6 @@ app.use('/vote', voteRouter);
 app.use('/auth', authRouter);
 app.use('/admin', adminRouter);
 
-var Account = require('./models/account');
-const { request } = require('express');
 passport.use(new LocalStrategy(Account.authenticate()));
 passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());
@@ -55,6 +62,6 @@ app.listen(3000, () => {
     debug(chalk.green("Server listening on port 3000."));
 });
 
-app.use((req, res, next) => {
+app.use((req, res) => {
     res.status(404).render("404");
 });

@@ -21,41 +21,41 @@
 </head>
 
 <body class="hold-transition login-page">
-    <div class="login-box">
-        <div class="login-logo">
-            <a href="/"><b>D</b>igitales<b>W</b>ahl<b>S</b>ystem</a>
-        </div>
-        <!-- /.login-logo -->
-        <div class="card">
-            <div class="card-body login-card-body">
-                <h4 class="login-box-msg">Digitales Wählen</h4>
+<div class="login-box">
+    <div class="login-logo">
+        <a href="/"><b>D</b>igitales<b>W</b>ahl<b>S</b>ystem</a>
+    </div>
+    <!-- /.login-logo -->
+    <div class="card">
+        <div class="card-body login-card-body">
+            <h4 class="login-box-msg">Digitales Wählen</h4>
 
-                <%if (!user) {%>
+            <% if (!user) { %>
                 <div class="text-center">
                     <a href="/auth/login" class="text-center">Anmelden</a><br>
                     <a href="/auth/register" class="text-center">Registrieren</a><br>
                 </div>
-                <%} else {%>
-                <div class="text-center">
-                    <a href="/vote" class="text-center">Zum Dashboard</a><br>
-                    <%if (user.admin) {%><a href="/admin" class="text-center">Zum Administrator-Dashboard</a><br>
-                    <%}%>
-                                    <a href="/auth/logout" class="text-center">Abmelden</a><br>
-                        </div>
-                        <%}%>
-
-                </div>
-                <!-- /.login-card-body -->
+            <% } else { %>
+            <div class="text-center">
+                <a href="/vote" class="text-center">Zum Dashboard</a><br>
+                <% if (user.admin) { %><a href="/admin" class="text-center">Zum Administrator-Dashboard</a><br>
+                <% } %>
+                <a href="/auth/logout" class="text-center">Abmelden</a><br>
             </div>
-        </div>
-        <!-- /.login-box -->
+            <% } %>
 
-        <!-- jQuery -->
-        <script src="../../plugins/jquery/jquery.min.js"></script>
-        <!-- Bootstrap 4 -->
-        <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <!-- AdminLTE App -->
-        <script src="../../dist/js/adminlte.min.js"></script>
+        </div>
+        <!-- /.login-card-body -->
+    </div>
+</div>
+<!-- /.login-box -->
+
+<!-- jQuery -->
+<script src="../../plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="../../dist/js/adminlte.min.js"></script>
 
 </body>
 

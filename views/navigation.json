@@ -1,15 +1,23 @@
-[{
-        "filename": "userlist",
-        "router": "admin",
-        "title": "Benutzerverwaltung",
-        "icon": "fa-users-cog",
-        "href": "/admin/userlist"
-    },
-    {
-        "filename": "adduser",
-        "router": "admin",
-        "title": "Nutzer Registrieren",
-        "icon": "fa-user-plus",
-        "href": "/admin/adduser"
-    }
+[
+  {
+    "filename": "userlist",
+    "router": "admin",
+    "title": "Benutzerverwaltung",
+    "icon": "fa-users-cog",
+    "href": "/admin/userlist"
+  },
+  {
+    "filename": "adduser",
+    "router": "admin",
+    "title": "Nutzer Registrieren",
+    "icon": "fa-user-plus",
+    "href": "/admin/adduser"
+  },
+  {
+    "filename": "dashboard",
+    "router": "vote",
+    "title": "Dashboard",
+    "icon": "fa-user-plus",
+    "href": "/vote/dashboard"
+  }
 ]

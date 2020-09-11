@@ -10,8 +10,11 @@ const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
-mongoose.connect('mongodb://localhost/dws', { useUnifiedTopology: true, useNewUrlParser: true }, function(err) {
-    if (err) throw err;
+mongoose.connect('mongodb://localhost/dws', {useUnifiedTopology: true, useNewUrlParser: true}, function (err) {
+    if (err) {
+        console.log(chalk.red.dim('! ') + 'Es konnte keine Verbindung zur Datenbank hergestellt werden.')
+        process.exit();
+    }
     debug('Database connected!');
 });
 
@@ -29,7 +32,7 @@ var app = express();
 app.use(morgan(chalk.blue.bold('  morgan ') + chalk.yellow(':method :url :status :res[content-length] - :response-time ms')));
 app.use(express.static(path.join(__dirname, '/public')));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(require('express-session')({
     secret: 'digitaleswahlsystem',

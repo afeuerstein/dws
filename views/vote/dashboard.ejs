@@ -114,15 +114,10 @@
             <!-- Default box -->
             <div class="card">
                 <div class="card-header">
-                    <form action="/admin/adduser" method="post">
-                        <label>Email</label>
-                        <input type="text" class="form-control" name="email" placeholder="mail@example.de">
-                        <label>Vorname</label>
-                        <input type="text" class="form-control" name="firstname" placeholder="Max">
-                        <label>Nachname</label>
-                        <input type="text" class="form-control" name="lastname" placeholder="Mustermann">
-                        <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Senden</button>
-                    </form>
+                    <h3>Was möchten Sie tun?</h3>
+                    <a href="./votes" type="button" class="btn btn-success">Abtimmen</a>
+                    <a href="/admin/votes" type="button" class="btn btn-warning">Abstimmungen verwalten</a>
+                    <a href="./results" type="button" class="btn btn-info">Abstimmungsergebnisse ansehen</a>
                 </div>
             </div>
         </section>

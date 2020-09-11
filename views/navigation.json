@@ -17,7 +17,7 @@
     "filename": "dashboard",
     "router": "vote",
     "title": "Dashboard",
-    "icon": "fa-user-plus",
+    "icon": "fa-tachometer-alt",
     "href": "/vote/dashboard"
   }
 ]

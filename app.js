@@ -9,6 +9,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+const config = require('./config.json');
 
 mongoose.connect('mongodb://localhost/dws', {useUnifiedTopology: true, useNewUrlParser: true}, function (err) {
     if (err) {
@@ -61,8 +62,8 @@ app.get('/', (req, res) => {
     });
 });
 
-app.listen(3000, () => {
-    debug(chalk.green("Server listening on port 3000."));
+app.listen(config.port, () => {
+    debug(chalk.green(`Server listening on port ${config.port}.`));
 });
 
 app.use((req, res) => {

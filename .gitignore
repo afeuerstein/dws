@@ -1,3 +1,7 @@
+#IDE and modules
 node_modules/
 start-mongo.sh
 .idea/
+#SSL certificates
+cert.pem
+key.pem

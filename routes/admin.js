@@ -1,6 +1,7 @@
 const express = require('express');
 const nav = require('../util/navigation').getNav("admin");
 const Account = require('../models/account');
+const Vote = require('../models/vote');
 const adminRouter = express.Router();
 
 function randomString(length) {
@@ -81,6 +82,25 @@ adminRouter.post('/reset_authid/:userID', (req, res) => {
         user.auth_id = randomString(32);
         user.save();
         res.render('success');
+    });
+});
+
+adminRouter.get('/vote', (req, res) => {
+    Vote.find({}).exec((err, result) => {
+        if (err) throw err;
+        res.render('admin/votes', {
+            title: 'Abstimmungen Verwalten',
+            nav,
+            votes: result,
+            pagename: 'votes'
+        });
+    })
+});
+
+adminRouter.get('/vote/new', (req, res) => {
+    res.render('admin/newvote', {
+        title: 'Neue Abstimmung ertsellen',
+        nav,
     });
 });
 

@@ -77,7 +77,7 @@
                     <% for (let i = 0; i < nav.length; i++) { %>
                         <li class="nav-item">
                             <a href="<%= nav[i].href %>"
-                               class="nav-link <% if (nav[i].filename === pagename) { %> active <% } %>">
+                               class="nav-link">
                                 <i class="nav-icon fas <%= nav[i].icon %>"></i>
                                 <p>
                                     <%= nav[i].title %>
@@ -114,12 +114,15 @@
             <!-- Default box -->
             <div class="card">
                 <div class="card-header">
-                    <h3>Was möchten Sie tun?</h3>
-                    <a href="./votes" type="button" class="btn btn-success">Abstimmen</a>
-                    <%if (user.admin) {%>
-                        <a href="/admin/votes" type="button" class="btn btn-warning">Abstimmungen verwalten</a>
-                    <%}%>
-                    <a href="./results" type="button" class="btn btn-info">Abstimmungsergebnisse ansehen</a>
+                    <form action="/admin/vote/new" method="post">
+                        <label>Name</label>
+                        <input type="text" class="form-control" name="title" placeholder="Titel der Abstimmung">
+                        <label>Beschreibung</label>
+                        <textarea type="text" class="form-control" name="description"></textarea>
+                        <label>Nachname</label>
+                        <input type="text" class="form-control" name="lastname" placeholder="Mustermann">
+                        <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Senden</button>
+                    </form>
                 </div>
             </div>
         </section>

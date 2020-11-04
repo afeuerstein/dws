@@ -15,7 +15,8 @@ voteRouter.get('/dashboard', (req, res) => {
     res.render('vote/dashboard', {
         title: "Dashboard",
         nav,
-        pagename: 'dashboard'
+        pagename: 'dashboard',
+        user: req.user,
     });
 });
 

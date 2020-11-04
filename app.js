@@ -11,6 +11,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const config = require('./config.json');
 
+//connect to mongo
 mongoose.connect('mongodb://localhost/dws', {useUnifiedTopology: true, useNewUrlParser: true}, function (err) {
     if (err) {
         console.log(chalk.red.dim('! ') + 'Es konnte keine Verbindung zur Datenbank hergestellt werden.')
@@ -20,7 +21,7 @@ mongoose.connect('mongodb://localhost/dws', {useUnifiedTopology: true, useNewUrl
 });
 
 //check if a user exists in the database, if not, run user setup
-var Account = require('./models/account');
+const Account = require('./models/account');
 const userSetup = require('./util/usersetup');
 Account.find({}, (err, res) => {
     if (!res.length) {
@@ -28,6 +29,7 @@ Account.find({}, (err, res) => {
     }
 });
 
+//init express
 var app = express();
 
 app.use(morgan(chalk.blue.bold('  morgan ') + chalk.yellow(':method :url :status :res[content-length] - :response-time ms')));
@@ -45,6 +47,7 @@ app.use(passport.session());
 app.set('views', './views');
 app.set('view engine', 'ejs');
 
+//define routes
 const authRouter = require('./routes/auth');
 const adminRouter = require('./routes/admin');
 const voteRouter = require('./routes/vote');
@@ -52,6 +55,7 @@ app.use('/vote', voteRouter);
 app.use('/auth', authRouter);
 app.use('/admin', adminRouter);
 
+//define passport strategy
 passport.use(new LocalStrategy(Account.authenticate()));
 passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());

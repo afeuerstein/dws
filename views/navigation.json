@@ -14,6 +14,13 @@
     "href": "/admin/adduser"
   },
   {
+    "filename": "votes",
+    "router": "admin",
+    "title": "Abstimmungen Verwalten",
+    "icon": "fa-poll",
+    "href": "/admin/vote"
+  },
+  {
     "filename": "dashboard",
     "router": "vote",
     "title": "Dashboard",

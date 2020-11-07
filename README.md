@@ -1,4 +1,4 @@
-# Digitales WahlSystem
+# Digitales Wahlsystem
 Ein System das digitale Wahlen in der Politik ermöglicht.
 
 ## DWS installieren und ausführen

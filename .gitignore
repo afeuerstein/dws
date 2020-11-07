@@ -5,3 +5,4 @@ start-mongo.sh
 #SSL certificates
 cert.pem
 key.pem
+config.json

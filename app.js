@@ -13,6 +13,7 @@ const config = require('./config.json');
 const https = require('https')
 const http = require('http')
 const fs = require('fs');
+const favicon = require('serve-favicon');
 
 //connect to mongo
 mongoose.connect('mongodb://localhost/dws', {useUnifiedTopology: true, useNewUrlParser: true}, function (err) {
@@ -59,6 +60,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.set('views', './views');
 app.set('view engine', 'ejs');
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
 //define routes
 const authRouter = require('./routes/auth');

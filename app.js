@@ -35,6 +35,16 @@ Account.find({}, (err, res) => {
 //init express
 var app = express();
 
+if (config.ssl) {
+//redirect http to https
+    app.use((req, res, next) => {
+        if (req.secure) {
+            return next();
+        }
+        res.redirect('https://' + req.hostname + req.url);
+    });
+}
+
 app.use(morgan(chalk.blue.bold('  morgan ') + chalk.yellow(':method :url :status :res[content-length] - :response-time ms')));
 app.use(express.static(path.join(__dirname, '/public')));
 app.use(bodyParser.json());
@@ -69,22 +79,24 @@ app.get('/', (req, res) => {
     });
 });
 
+app.use((req, res, next) => {
+    res.status(404).render("404");
+    next();
+});
+
 if (config.ssl) {
-//get ssl keys
+    //get ssl keys
     const options = {
         key: fs.readFileSync('key.pem'),
         cert: fs.readFileSync('cert.pem'),
         passphrase: 'test'
     };
 
-    http.createServer(app).listen(80)
-    https.createServer(options, app).listen(443)
+    http.createServer(app).listen(80);
+    https.createServer(options, app).listen(443);
+    debug(chalk.green(`Server listening on port ${config.port}.`));
 } else {
     app.listen(config.port, () => {
         debug(chalk.green(`Server listening on port ${config.port}.`));
     });
 }
-
-app.use((req, res) => {
-    res.status(404).render("404");
-});

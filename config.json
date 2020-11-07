@@ -1,4 +1,4 @@
 {
-  "ssl": false,
+  "ssl": true,
   "port": 3000
 }

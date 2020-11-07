@@ -5,8 +5,10 @@ const Vote = new Schema({
     title: String,
     description: String,
     creationDate: { type: Date, default: Date.now },
-    targetDate: {type: Date},
-    timeInterval: {type: Date},
+    date: {
+        startDate: { type: Date, default: Date.now },
+        endDate: { type: Date}
+    },
     isVoteRunning: {type: Boolean, default: false},
     votes: {
         yes: {type: Number, default: -1},

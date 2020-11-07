@@ -119,9 +119,10 @@
                         <input type="text" class="form-control" name="title" placeholder="Titel der Abstimmung">
                         <label>Beschreibung</label>
                         <textarea type="text" class="form-control" name="description"></textarea>
-                        <label>Nachname</label>
-                        <input type="text" class="form-control" name="lastname" placeholder="Mustermann">
+                        <label>Zeitraum</label>
+                        <input type="text" class="form-control daterange" name="daterange"/>
                         <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Senden</button>
+
                     </form>
                 </div>
             </div>
@@ -150,4 +151,20 @@
 <script src="/dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="/dist/js/demo.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<script>
+    $(function() {
+        $('.daterange').daterangepicker({
+            timePicker: true,
+            timePicker24Hour: true,
+            startDate: moment().startOf('hour'),
+            endDate: moment().startOf('hour').add(24, 'hour'),
+            locale: {
+                format: 'MM.DD.YYYY hh:mm'
+            }
+        });
+    });
+</script>
 </body>

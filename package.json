@@ -17,6 +17,7 @@
         "express": "^4.17.1",
         "express-session": "^1.17.1",
         "inquirer": "^7.3.3",
+        "moment": "^2.29.1",
         "mongoose": "^5.9.19",
         "morgan": "^1.10.0",
         "passport": "^0.4.1",

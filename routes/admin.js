@@ -3,6 +3,7 @@ const nav = require('../util/navigation').getNav("admin");
 const Account = require('../models/account');
 const Vote = require('../models/vote');
 const adminRouter = express.Router();
+const votemanager = require('../util/votemanager');
 
 function randomString(length) {
     var result = '';
@@ -103,5 +104,19 @@ adminRouter.get('/vote/new', (req, res) => {
         nav,
     });
 });
+
+adminRouter.post('/vote/new', (req, res) => {
+    const date = votemanager.getDateByString(req.body.daterange);
+    const newVote = new Vote({
+        title: req.body.title,
+        description: req.body.description,
+        date: {
+            startDate: date.startDate,
+            endDate: date.endDate
+        }
+    });
+    newVote.save();
+    res.redirect('/admin/vote');
+})
 
 module.exports = adminRouter;

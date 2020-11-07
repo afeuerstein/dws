@@ -130,10 +130,10 @@
                                     Beschreibung
                                 </th>
                                 <th>
-                                    Fälligkeitsdatum
+                                    Start der Abstimmung
                                 </th>
-                                <th style="width: 8%">
-                                    Abstimmungszeitraum
+                                <th>
+                                    Ende der Abstimmung
                                 </th>
                                 <th style="width: 8%">
                                     Status
@@ -148,12 +148,14 @@
                             <% for (let i = 0; i < votes.length; i++) { %>
                             <tr>
                                 <td>
-                                    <%= votes[i]._id %>
+                                    <p>
+                                        <%= votes[i]._id %>
+                                    </p>
                                 </td>
                                 <td>
-                                    <a>
+                                    <p>
                                         <%= votes[i].title %>
-                                    </a>
+                                    </p>
                                 </td>
                                 <td>
                                     <p>
@@ -162,11 +164,13 @@
                                 </td>
                                 <td>
                                     <p>
-                                        <%= votes[i].targetDate %>
+                                        <%= votes[i].date.startDate.toLocaleDateString('de-DE', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' }); %>
                                     </p>
                                 </td>
                                 <td>
-                                    <%= votes[i].timeInterval %>
+                                    <p>
+                                        <%= votes[i].date.endDate.toLocaleDateString('de-DE', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' }); %>
+                                    </p>
                                 </td>
                                 <td>
                                     <% if (votes.isVoteRunning) { %>
@@ -183,7 +187,8 @@
                             </tbody>
                         </table>
                     </div>
-                    <a href="/admin/vote/new" type="button" class="btn btn-outline-success" style="margin-top: 5px">Abstimmung erstellen</a>
+                    <a href="/admin/vote/new" type="button" class="btn btn-outline-success" style="margin-top: 5px">Abstimmung
+                        erstellen</a>
                 </div>
             </div>
         </section>

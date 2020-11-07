@@ -10,6 +10,9 @@ const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const config = require('./config.json');
+const https = require('https')
+const http = require('http')
+const fs = require('fs');
 
 //connect to mongo
 mongoose.connect('mongodb://localhost/dws', {useUnifiedTopology: true, useNewUrlParser: true}, function (err) {
@@ -66,9 +69,21 @@ app.get('/', (req, res) => {
     });
 });
 
-app.listen(config.port, () => {
-    debug(chalk.green(`Server listening on port ${config.port}.`));
-});
+if (config.ssl) {
+//get ssl keys
+    const options = {
+        key: fs.readFileSync('key.pem'),
+        cert: fs.readFileSync('cert.pem'),
+        passphrase: 'test'
+    };
+
+    http.createServer(app).listen(80)
+    https.createServer(options, app).listen(443)
+} else {
+    app.listen(config.port, () => {
+        debug(chalk.green(`Server listening on port ${config.port}.`));
+    });
+}
 
 app.use((req, res) => {
     res.status(404).render("404");

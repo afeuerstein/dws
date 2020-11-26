@@ -91,7 +91,7 @@ if (config.ssl) {
     const options = {
         key: fs.readFileSync('key.pem'),
         cert: fs.readFileSync('cert.pem'),
-        passphrase: 'test'
+        passphrase: config.sslpassphrase
     };
 
     http.createServer(app).listen(80);

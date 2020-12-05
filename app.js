@@ -1,4 +1,5 @@
 console.clear();
+
 const express = require('express');
 const chalk = require('chalk');
 const debug = require('debug')('web');
@@ -14,6 +15,7 @@ const https = require('https')
 const http = require('http')
 const fs = require('fs');
 const favicon = require('serve-favicon');
+const VoteManager = require('./util/votemanager');
 
 //connect to mongo
 mongoose.connect('mongodb://localhost/dws', {useUnifiedTopology: true, useNewUrlParser: true}, function (err) {
@@ -102,3 +104,5 @@ if (config.ssl) {
         debug(chalk.green(`Server listening on port ${config.port}.`));
     });
 }
+
+VoteManager.registerRunningVotes();

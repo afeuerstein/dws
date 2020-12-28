@@ -77,8 +77,8 @@
                     <% for (let i = 0; i < nav.length; i++) { %>
                         <li class="nav-item">
                             <a href="<%= nav[i].href %>"
-                               class="nav-link <% if (nav[i].filename === pagename) { %> active <% } %>">
-                                <i class="nav-icon fas <%= nav[i].icon %>"></i>
+                               class="nav-link <% if (nav[i].filename == pagename) { %> active <% } %>">
+                                <i class="nav-icon fas <%=nav[i].icon%>"></i>
                                 <p>
                                     <%= nav[i].title %>
                                 </p>
@@ -114,12 +114,75 @@
             <!-- Default box -->
             <div class="card">
                 <div class="card-header">
-                    <h3>Was möchten Sie tun?</h3>
-                    <a href="./votes" type="button" class="btn btn-success">Abstimmen</a>
-                    <%if (user.admin) {%>
-                        <a href="/admin/votes" type="button" class="btn btn-warning">Abstimmungen verwalten</a>
-                    <%}%>
-                    <a href="./archive" type="button" class="btn btn-info">Abstimmungsergebnisse ansehen</a>
+                    <h3 class="card-title">Vergangene Abstimmungen</h3>
+
+                    <div class="card-body p-0 table-responsive">
+                        <table class="table table-striped projects">
+                            <thead>
+                            <tr>
+                                <th style="width: 20%">
+                                    ID
+                                </th>
+                                <th style="width: 20%">
+                                    Titel
+                                </th>
+                                <th>
+                                    Beschreibung
+                                </th>
+                                <th>
+                                    Start der Abstimmung
+                                </th>
+                                <th>
+                                    Ende der Abstimmung
+                                </th>
+                                <th>
+                                    Erstellungsdatum
+                                </th>
+                                <th style="width: 8%">
+                                    Bearbeitung
+                                </th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <% for (let i = 0; i < archive.length; i++) { %>
+                            <tr>
+                                <td>
+                                    <p>
+                                        <%= archive[i]._id %>
+                                    </p>
+                                </td>
+                                <td>
+                                    <p>
+                                        <%= archive[i].title %>
+                                    </p>
+                                </td>
+                                <td>
+                                    <p>
+                                        <%= archive[i].description %>
+                                    </p>
+                                </td>
+                                <td>
+                                    <p>
+                                        <%= archive[i].date.startDate.toLocaleDateString('de-DE', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' }); %>
+                                    </p>
+                                </td>
+                                <td>
+                                    <p>
+                                        <%= archive[i].date.endDate.toLocaleDateString('de-DE', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' }); %>
+                                    </p>
+                                </td>
+                                <td>
+                                    <%= archive[i].creationDate.toLocaleDateString('de-DE', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' }); %>
+                                </td>
+                                <td>
+
+                                </td>
+                                <% } %>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </section>

@@ -26,5 +26,12 @@
     "title": "Dashboard",
     "icon": "fa-tachometer-alt",
     "href": "/vote/dashboard"
+  },
+  {
+    "filename": "archive",
+    "router": "vote",
+    "title": "Archiv",
+    "icon": "fa-archive",
+    "href": "/vote/archive"
   }
 ]

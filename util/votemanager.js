@@ -1,5 +1,6 @@
 const chalk = require('chalk');
 const moment = require('moment');
+const ArchivedVote = require('../models/archivedVote');
 const Vote = require('../models/vote');
 const schedule = require('node-schedule');
 
@@ -18,10 +19,11 @@ module.exports.getDateByString = (range) => {
 //registers all currently running votes (usually run on startup)
 module.exports.registerRunningVotes = () => {
     Vote.find({}).exec((err, result) => {
-        console.log(chalk.green.dim('↱ ') + 'Zunkünftige Amstimmungen werden erfasst:');
-        //get all votes that will be running in the future and register them into the schedule
+        console.log(chalk.green.dim('↱ ') + 'Laufende und Zunkünftige Amstimmungen werden erfasst:');
+        console.log(chalk.red.dim('! ') + 'Daten von Abstimmungen, die bei Serverstart laufen sollten werden zurückgesetzt.');
         for (var i = 0; i < result.length; i++) {
             let vote = result[i];
+            //get all votes that will be running in the future and register them into the schedule
             if (vote.date.startDate > Date.now()) {
                 console.log(chalk.blue.dim(`↪ [${i}] `) + vote.title);
                 //schedule resgistering the vote on .startDate
@@ -36,13 +38,10 @@ module.exports.registerRunningVotes = () => {
                 //schedule unregistering the vote at .endDate
                 var unregisterSchedule = schedule.scheduleJob(result[i].date.endDate, () => {
                     vote.isVoteRunning = false;
-                    vote.save();
-                    //TODO: figure "the archive" out
+                    archiveVote(vote);
                 });
             }
 
-            console.log(chalk.green.dim('↱ ') + 'Laufende Amstimmungen werden erfasst:');
-            console.log(chalk.red.dim('! ') + 'Daten von Abstimmungen, die bei Serverstart laufen sollten werden zurückgesetzt.');
             //get all votes that should be running on server startup and register them
             if(vote.date.startDate < Date.now() && Date.now() < vote.date.endDate) {
                 console.log(chalk.blue.dim(`↪ [${i}] `) + vote.title);
@@ -54,12 +53,30 @@ module.exports.registerRunningVotes = () => {
                 //schedule unregistering the vote at .endDate
                 var unregisterSchedule = schedule.scheduleJob(result[i].date.endDate, () => {
                     vote.isVoteRunning = false;
-                    vote.save();
-                    //TODO: figure "the archive" out
+                    archiveVote(vote);
                 });
             }
+            //TODO: get all votes that should've already passed and move them into the archive
         }
 
-        //TODO: get  all votes that should've already passed and move them into the archive
     });
+}
+
+archiveVote = (vote) => {
+    var archivedVote = new ArchivedVote({
+        title: vote.title,
+        description: vote.description,
+        creationDate: vote.creationDate,
+        date: {
+            startDate: vote.date.startDate,
+            endDate: vote.date.endDate,
+        },
+        votes: {
+            yes: vote.votes.yes,
+            no: vote.votes.no,
+            abstention: vote.votes.abstention
+        }
+    });
+    archivedVote.save();
+    vote.remove();
 }

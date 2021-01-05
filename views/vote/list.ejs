@@ -114,7 +114,79 @@
             <!-- Default box -->
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Vergangene Abstimmungen</h3>
+                    <h3 class="card-title">Laufende Abstimmungen</h3>
+
+                    <div class="card-body p-0 table-responsive">
+                        <table class="table table-striped projects">
+                            <thead>
+                            <tr>
+                                <th style="width: 20%">
+                                    ID
+                                </th>
+                                <th style="width: 20%">
+                                    Titel
+                                </th>
+                                <th>
+                                    Beschreibung
+                                </th>
+                                <th>
+                                    Start der Abstimmung
+                                </th>
+                                <th>
+                                    Ende der Abstimmung
+                                </th>
+                                <%if (user.admin) {%>
+                                    <th style="width: 8%">
+                                        Bearbeitung
+                                    </th>
+                                <%}%>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <% for (let i = 0; i < votes.length; i++) { %>
+                            <%if (votes[i].isVoteRunning === false) continue;%>
+                            <tr>
+                                <td>
+                                    <p>
+                                        <%= votes[i]._id %>
+                                    </p>
+                                </td>
+                                <td>
+                                    <p>
+                                        <%= votes[i].title %>
+                                    </p>
+                                </td>
+                                <td>
+                                    <p>
+                                        <%= votes[i].description %>
+                                    </p>
+                                </td>
+                                <td>
+                                    <p>
+                                        <%= votes[i].date.startDate.toLocaleDateString('de-DE', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' }); %>
+                                    </p>
+                                </td>
+                                <td>
+                                    <p>
+                                        <%= votes[i].date.endDate.toLocaleDateString('de-DE', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' }); %>
+                                    </p>
+                                </td>
+                                <td>
+                                    <a href="/admin/vote/<%= votes[i]._id %>">Abstimmung Bearbeiten</a>
+                                </td>
+                                <% } %>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Default box -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Zukünftige Abstimmungen</h3>
 
                     <div class="card-body p-0 table-responsive">
                         <table class="table table-striped projects">
@@ -136,55 +208,60 @@
                                     Ende der Abstimmung
                                 </th>
                                 <th>
-                                    Erstellungsdatum
+                                    Einreichung
                                 </th>
-                                <th style="width: 8%">
-                                    <!--Details-->
-                                </th>
+                                <%if (user.admin) {%>
+                                    <th style="width: 8%">
+                                        Bearbeitung
+                                    </th>
+                                <%}%>
                             </tr>
                             </thead>
 
                             <tbody>
-                            <% for (let i = 0; i < archive.length; i++) { %>
+                            <% for (let i = 0; i < votes.length; i++) { %>
+                                <%if (votes[i].isVoteRunning === true) continue;%>
                             <tr>
                                 <td>
                                     <p>
-                                        <%= archive[i]._id %>
+                                        <%= votes[i]._id %>
                                     </p>
                                 </td>
                                 <td>
                                     <p>
-                                        <%= archive[i].title %>
+                                        <%= votes[i].title %>
                                     </p>
                                 </td>
                                 <td>
                                     <p>
-                                        <%= archive[i].description %>
+                                        <%= votes[i].description %>
                                     </p>
                                 </td>
                                 <td>
                                     <p>
-                                        <%= archive[i].date.startDate.toLocaleDateString('de-DE', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' }); %>
+                                        <%= votes[i].date.startDate.toLocaleDateString('de-DE', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' }); %>
                                     </p>
                                 </td>
                                 <td>
                                     <p>
-                                        <%= archive[i].date.endDate.toLocaleDateString('de-DE', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' }); %>
+                                        <%= votes[i].date.endDate.toLocaleDateString('de-DE', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' }); %>
                                     </p>
                                 </td>
                                 <td>
-                                    <%= archive[i].creationDate.toLocaleDateString('de-DE', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' }); %>
+                                    <a href="submit/<%=votes[i]._id%>">Abstimmung einrreichen</a>
                                 </td>
+                                <%if (user.admin) {%>
                                 <td>
-                                    <a href="archive/<%= archive[i]._id%>">Details</a>
+                                    <a href="/admin/vote/<%= votes[i]._id %>">Abstimmung Bearbeiten</a>
                                 </td>
-                                <% } %>
+                                <% }} %>
                             </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
+            <a href="archive" type="button" class="btn btn-outline-info" style="margin-top: 5px">Zum Archiv</a>
         </section>
         <!-- /.content -->
     </div>

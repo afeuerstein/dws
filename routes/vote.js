@@ -2,6 +2,7 @@ const express = require('express');
 var nav = require('../util/navigation').getNav("vote");
 var Account = require('../models/account');
 const voteRouter = express.Router();
+const Vote = require('../models/vote');
 const ArchivedVote = require('../models/archivedVote');
 
 voteRouter.use((req, res, next) => {
@@ -32,6 +33,19 @@ voteRouter.get('/archive', (req,res) => {
             archive: result,
         });
     });
+});
+
+voteRouter.get('/list', (req, res) => {
+    Vote.find({}).exec((err, result) => {
+        if (err) throw err;
+        res.render('vote/list', {
+            title: 'Abstimmungen',
+            nav,
+            votes: result,
+            pagename: 'list',
+            user: req.user,
+        });
+    })
 });
 
 module.exports = voteRouter;

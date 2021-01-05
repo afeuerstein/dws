@@ -28,6 +28,13 @@
     "href": "/vote/dashboard"
   },
   {
+    "filename": "list",
+    "router": "vote",
+    "title": "Astimmungen",
+    "icon": "fa-vote-yea",
+    "href": "/vote/list"
+  },
+  {
     "filename": "archive",
     "router": "vote",
     "title": "Archiv",

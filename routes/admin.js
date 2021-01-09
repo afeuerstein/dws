@@ -115,7 +115,10 @@ adminRouter.post('/vote/new', (req, res) => {
             endDate: date.endDate
         }
     });
-    newVote.save();
+    var isSaved = votemanager.checkIfVoteRunning(newVote, 0);
+    if (!isSaved) {
+        newVote.save();
+    }
     res.redirect('/admin/vote');
 })
 

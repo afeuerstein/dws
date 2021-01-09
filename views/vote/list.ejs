@@ -135,6 +135,9 @@
                                 <th>
                                     Ende der Abstimmung
                                 </th>
+                                <th>
+                                    Einreichung
+                                </th>
                                 <%if (user.admin) {%>
                                     <th style="width: 8%">
                                         Bearbeitung
@@ -173,7 +176,14 @@
                                     </p>
                                 </td>
                                 <td>
-                                    <a href="/admin/vote/<%= votes[i]._id %>">Abstimmung Bearbeiten</a>
+                                    <p>
+                                        <a href="submit/<%=votes[i]._id%>">Stimme einrreichen</a>
+                                    </p>
+                                </td>
+                                <td>
+                                    <p>
+                                        <a href="/admin/vote/<%= votes[i]._id %>">Abstimmung Bearbeiten</a>
+                                    </p>
                                 </td>
                                 <% } %>
                             </tr>
@@ -206,9 +216,6 @@
                                 </th>
                                 <th>
                                     Ende der Abstimmung
-                                </th>
-                                <th>
-                                    Einreichung
                                 </th>
                                 <%if (user.admin) {%>
                                     <th style="width: 8%">
@@ -246,9 +253,6 @@
                                     <p>
                                         <%= votes[i].date.endDate.toLocaleDateString('de-DE', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' }); %>
                                     </p>
-                                </td>
-                                <td>
-                                    <a href="submit/<%=votes[i]._id%>">Abstimmung einrreichen</a>
                                 </td>
                                 <%if (user.admin) {%>
                                 <td>

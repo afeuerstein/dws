@@ -48,4 +48,18 @@ voteRouter.get('/list', (req, res) => {
     })
 });
 
+voteRouter.get('/submit/:voteID', (req, res) => {
+    Vote.findById(req.params.voteID, (err, vote) => {
+        if (err) throw err;
+        if (vote) {
+            res.render('vote/submit', {
+                title: 'Abstimmen',
+                nav,
+                vote,
+                pagename: 'list'
+            });
+        } else res.sendStatus(401);
+    });
+})
+
 module.exports = voteRouter;

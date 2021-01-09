@@ -23,43 +23,50 @@ module.exports.registerRunningVotes = () => {
         console.log(chalk.red.dim('! ') + 'Daten von Abstimmungen, die bei Serverstart laufen sollten werden zurückgesetzt.');
         for (var i = 0; i < result.length; i++) {
             let vote = result[i];
-            //get all votes that will be running in the future and register them into the schedule
-            if (vote.date.startDate > Date.now()) {
-                console.log(chalk.blue.dim(`↪ [${i}] `) + vote.title);
-                //schedule resgistering the vote on .startDate
-                var registerSchedule = schedule.scheduleJob(result[i].date.startDate, () => {
-                    vote.isVoteRunning = true;
-                    vote.votes.yes = 0;
-                    vote.votes.no = 0;
-                    vote.votes.abstention = 0;
-                    vote.save();
-                });
-
-                //schedule unregistering the vote at .endDate
-                var unregisterSchedule = schedule.scheduleJob(result[i].date.endDate, () => {
-                    vote.isVoteRunning = false;
-                    archiveVote(vote);
-                });
-            }
-
-            //get all votes that should be running on server startup and register them
-            if(vote.date.startDate < Date.now() && Date.now() < vote.date.endDate) {
-                console.log(chalk.blue.dim(`↪ [${i}] `) + vote.title);
-                vote.isVoteRunning = true;
-                vote.votes.yes = 0;
-                vote.votes.no = 0;
-                vote.votes.abstention = 0;
-                vote.save();
-                //schedule unregistering the vote at .endDate
-                var unregisterSchedule = schedule.scheduleJob(result[i].date.endDate, () => {
-                    vote.isVoteRunning = false;
-                    archiveVote(vote);
-                });
-            }
-            //TODO: get all votes that should've already passed and move them into the archive
+            this.checkIfVoteRunning(vote, i);
         }
 
     });
+}
+
+module.exports.checkIfVoteRunning = (vote, i) => {
+    //get all votes that will be running in the future and register them into the schedule
+    if (vote.date.startDate > Date.now()) {
+        console.log(chalk.blue.dim(`↪ [${i}] `) + vote.title);
+        //schedule resgistering the vote on .startDate
+        var registerSchedule = schedule.scheduleJob(vote.date.startDate, () => {
+            vote.isVoteRunning = true;
+            vote.votes.yes = 0;
+            vote.votes.no = 0;
+            vote.votes.abstention = 0;
+            vote.save();
+        });
+
+        //schedule unregistering the vote at .endDate
+        var unregisterSchedule = schedule.scheduleJob(vote.date.endDate, () => {
+            vote.isVoteRunning = false;
+            archiveVote(vote);
+        });
+        return false;
+    }
+
+    //get all votes that should be running on server startup and register them
+    if(vote.date.startDate < Date.now() && Date.now() < vote.date.endDate) {
+        console.log(chalk.blue.dim(`↪ [${i}] `) + vote.title);
+        vote.isVoteRunning = true;
+        vote.votes.yes = 0;
+        vote.votes.no = 0;
+        vote.votes.abstention = 0;
+        vote.save();
+        //schedule unregistering the vote at .endDate
+        var unregisterSchedule = schedule.scheduleJob(vote.date.endDate, () => {
+            vote.isVoteRunning = false;
+            archiveVote(vote);
+        });
+        return true;
+    }
+
+    //TODO: get all votes that should've already passed and move them into the archive
 }
 
 archiveVote = (vote) => {

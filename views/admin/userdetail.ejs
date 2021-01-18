@@ -127,7 +127,8 @@
                     <input type="text" class="form-control" name="status" disabled=''>
                     <% if (user.registration_status == 'pending') { %>
                     <label>Auth-ID</label>
-                    <input type="text" class="form-control" name="auth_id" disabled=''>
+                    <input type="text" class="form-control" name="auth_id" disabled=''/>
+                        <img src="<%=qr%>"/>
                     <form action="/admin/reset_authid/<%= user._id %> " method="post">
                         <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Auth-ID zurücksetzten
                         </button>

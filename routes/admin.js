@@ -4,6 +4,7 @@ const Account = require('../models/account');
 const Vote = require('../models/vote');
 const adminRouter = express.Router();
 const votemanager = require('../util/votemanager');
+const qrcode = require('qrcode');
 
 function randomString(length) {
     var result = '';
@@ -54,25 +55,31 @@ adminRouter.post('/adduser', (req, res) => {
         auth_id,
     });
     newUser.save();
-    res.render('admin/displayid', {
-        title: 'Auth-ID von ' + req.body.lastname,
-        lastname: req.body.lastname,
-        firstname: req.body.firstname,
-        email: req.body.email,
-        auth_id,
-        nav,
-        pagename: 'displayid',
+    qrcode.toDataURL('https://digitaleswahlsystem.de/auth/register?id=' + auth_id, (err, qr) => {
+        res.render('admin/displayid', {
+            title: 'Auth-ID von ' + req.body.lastname,
+            lastname: req.body.lastname,
+            firstname: req.body.firstname,
+            email: req.body.email,
+            auth_id,
+            nav,
+            pagename: 'displayid',
+            qr,
+        });
     });
 });
 
 adminRouter.get('/userdetail/:userID', (req, res) => {
     Account.findById(req.params.userID, (err, user) => {
         if (err) throw err;
-        res.render('admin/userdetail', {
-            title: 'Details  zu ' + user.lastname,
-            user,
-            nav,
-            pagename: "userdetail",
+        qrcode.toDataURL('https://digitaleswahlsystem.de/auth/register?id=' + user.auth_id, (err, qr) => {
+            res.render('admin/userdetail', {
+                title: 'Details  zu ' + user.lastname,
+                user,
+                nav,
+                pagename: "userdetail",
+                qr,
+            });
         });
     });
 });
@@ -82,7 +89,7 @@ adminRouter.post('/reset_authid/:userID', (req, res) => {
         if (err) throw err;
         user.auth_id = randomString(32);
         user.save();
-        res.render('success');
+        res.redirect('/admin/userdetail/' + req.params.userID);
     });
 });
 

@@ -84,7 +84,10 @@
     <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
     <script src="../../dist/js/adminlte.min.js"></script>
-
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        $("body > div > div.card > div.card-body.login-card-body > form > div:nth-child(1) > input").val(urlParams.get('id'));
+    </script>
 </body>
 
 </html>

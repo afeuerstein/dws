@@ -14,6 +14,7 @@ authRouter.get('/register', function (req, res) {
 authRouter.post('/register', (req, res) => {
     let query = Account.findOne({auth_id: req.body.auth_id});
     query.exec((err, result) => {
+        if (!result) return res.sendStatus(401);
         if (result.registration_status === 'pending') {
             result.registration_status = 'complete';
             result.setPassword(req.body.password, () => {

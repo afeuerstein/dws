@@ -62,4 +62,11 @@ voteRouter.get('/submit/:voteID', (req, res) => {
     });
 })
 
+voteRouter.post('/submit/:voteID', (req, res) => {
+    Vote.findById(req.params.voteID, (err, vote) => {
+        if (err) throw err;
+        if(!vote.isVoteRunning) return res.sendStatus(401);
+    });
+});
+
 module.exports = voteRouter;

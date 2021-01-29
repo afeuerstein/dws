@@ -2,6 +2,9 @@ const express = require('express');
 const passport = require('passport');
 const Account = require('../models/account');
 const authRouter = express.Router();
+const fs = require('fs');
+const config = require('../config.json');
+var adminAuth = false;
 
 authRouter.get('/', function (req, res) {
     res.redirect('/auth/login');
@@ -60,4 +63,35 @@ authRouter.post('/changepwd', (req, res, next) => {
     res.render('success')
 });
 
-module.exports = authRouter;
+authRouter.post('/admin2fa', (req, res) => {
+    if (!fs.existsSync("./token.txt")) {
+        if (req.body.approve) {
+            fs.writeFileSync("./token.txt", req.body.approve);
+        } else if (req.body.dismiss) {
+            fs.writeFileSync("./token.txt", req.body.dismiss);
+        } else if (req.body.deactivate) {
+            fs.writeFileSync("./token.txt", req.body.deactivate);
+        }
+
+    }
+    token = fs.readFileSync("token.txt").toString();
+    if (req.body.approve === token) {
+        adminAuth = true;
+        res.redirect(config.admin2faServer + '/timer');
+    } else if (req.body.dismiss === token) {
+        adminAuth = false;
+        res.redirect(config.admin2faServer);
+    } else {
+        res.sendStatus(401);
+    }
+});
+
+authRouter.get('/admin2fa', (req, res) => {
+    res.render('success');
+});
+
+module.exports.router = authRouter;
+
+module.exports.verifyAdmin = () => {
+    return adminAuth;
+}

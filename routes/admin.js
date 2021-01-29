@@ -5,6 +5,7 @@ const Vote = require('../models/vote');
 const adminRouter = express.Router();
 const votemanager = require('../util/votemanager');
 const qrcode = require('qrcode');
+const auth = require('./auth');
 
 function randomString(length) {
     var result = '';
@@ -20,6 +21,8 @@ adminRouter.use((req, res, next) => {
     if (!req.user) {
         res.redirect('/auth/login');
     } else if (!req.user.admin) {
+        res.render('401');
+    } else if (!auth.verifyAdmin()) {
         res.render('401');
     } else next();
 });

@@ -121,9 +121,11 @@
                         <%=vote.description%>
                     </div>
                     <div class="btn-group">
-                        <button type="button" class="btn btn-success">Zustimmen</button>
-                        <button type="button" class="btn btn-danger">Ablehnen</button>
-                        <button type="button" class="btn btn-default">Enthalten</button>
+                        <form method="post" action="/vote/submit/<%=vote._id%>">
+                            <button name="yes" value=true class="btn btn-success">Zustimmen</button>
+                            <button name="no" value=true class="btn btn-danger">Ablehnen</button>
+                            <button name="abs" value=true class="btn btn-default">Enthalten</button>
+                        </form>
                     </div>
                 </div>
             </div>

@@ -6,3 +6,4 @@ start-mongo.sh
 cert.pem
 key.pem
 config.json
+token.txt

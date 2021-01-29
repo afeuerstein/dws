@@ -69,7 +69,7 @@ const authRouter = require('./routes/auth');
 const adminRouter = require('./routes/admin');
 const voteRouter = require('./routes/vote');
 app.use('/vote', voteRouter);
-app.use('/auth', authRouter);
+app.use('/auth', authRouter.router);
 app.use('/admin', adminRouter);
 
 //define passport strategy

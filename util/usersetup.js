@@ -22,6 +22,6 @@ module.exports.userSetup = (account) => {
             }
             let adminUser = new account({username: answers.username, admin: true, registration_status: 'complete'});
             adminUser.setPassword(answers.password, () => adminUser.save());
-            console.log(chalk.green.dim('✓ ') + 'Enrichtung abgeschlossen! Sie können sich unter localhost:3000 anmelden!');
+            console.log(chalk.green.dim('✓ ') + 'Enrichtung abgeschlossen! Sie können sich unter https://digitaleswahlsystem.de anmelden!');
         });
 };

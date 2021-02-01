@@ -26,10 +26,10 @@ mongoose.connect('mongodb://localhost/dws', {useUnifiedTopology: true, useNewUrl
     debug('Database connected!');
 });
 
-//check if a user exists in the database, if not, run user setup
+//check if a admin user exists in the database, if not, run user setup
 const Account = require('./models/account');
 const userSetup = require('./util/usersetup');
-Account.find({}, (err, res) => {
+Account.find({admin: true}, (err, res) => {
     if (!res.length) {
         userSetup.userSetup(Account);
     }

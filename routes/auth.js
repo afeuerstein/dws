@@ -81,13 +81,15 @@ authRouter.post('/admin2fa', (req, res) => {
     } else if (req.body.dismiss === token) {
         adminAuth = false;
         res.redirect(config.admin2faServer);
+    } else if (req.body.deactivate === token) {
+        Account.findOne({admin: true}).exec((err, account) => {
+            if (!account) return res.send("Dieser Account wurde bereits deaktiviert.");
+            account.delete();
+            res.redirect(config.admin2faServer);
+        });
     } else {
         res.sendStatus(401);
     }
-});
-
-authRouter.get('/admin2fa', (req, res) => {
-    res.render('success');
 });
 
 module.exports.router = authRouter;

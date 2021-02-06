@@ -66,6 +66,34 @@ voteRouter.post('/submit/:voteID', (req, res) => {
     Vote.findById(req.params.voteID, (err, vote) => {
         if (err) throw err;
         if(!vote.isVoteRunning) return res.sendStatus(401);
+        if (vote.votes.accounts.some(el => el === req.user.id)) return res.sendStatus(401);
+        if(req.body.yes) {
+            vote.votes.yes++;
+            vote.votes.accounts.push(req.user.id);
+            vote.save();
+            res.render('success');
+        } else if (req.body.no) {
+            vote.votes.no++;
+            vote.votes.accounts.push(req.user.id);
+            vote.save();
+            res.render('success');
+        } else if (req.body.abs) {
+            vote.votes.abstention++;
+            vote.votes.accounts.push(req.user.id);
+            vote.save();
+            res.render('success');
+        }
+    });
+});
+
+voteRouter.get('/archive/:voteID', (req, res) => {
+    ArchivedVote.findById(req.params.voteID, (err, vote) => {
+        res.render('vote/details', {
+            title: 'Details',
+            nav,
+            vote,
+            pagename: 'archive'
+        });
     });
 });
 

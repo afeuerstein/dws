@@ -14,6 +14,7 @@ const Vote = new Schema({
         yes: {type: Number, default: -1},
         no: {type: Number, default: -1},
         abstention: {type: Number, default: -1},
+        accounts: []
     }
 });
 

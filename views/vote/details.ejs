@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>DWS |
+        <%= title %>
+    </title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+
+<body class="hold-transition sidebar-mini">
+<!-- Site wrapper -->
+<div class="wrapper">
+    <!-- Navbar -->
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+        <!-- Left navbar links -->
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
+            </li>
+            <li class="nav-item d-none d-sm-inline-block">
+                <a href="/" class="nav-link">Home</a>
+            </li>
+        </ul>
+
+        <!-- Right navbar links -->
+        <ul class="navbar-nav ml-auto">
+
+            <!-- Notifications Dropdown Menu -->
+            <li class="nav-item dropdown">
+                <a class="nav-link" data-toggle="dropdown" href="#">
+                    <i class="far fas fa-cog"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                    <span class="dropdown-item dropdown-header">Account</span>
+                    <div class="dropdown-divider"></div>
+                    <a href="/auth/logout" class="dropdown-item">
+                        <i class="fas fa-sign-out-alt"></i> Ausloggen
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="/auth/changepwd" class="dropdown-item">
+                        <i class="fas fa-key"></i> Passwort ändern
+                    </a>
+                </div>
+            </li>
+        </ul>
+    </nav>
+    <!-- /.navbar -->
+
+    <!-- Main Sidebar Container -->
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <!-- Brand Logo -->
+        <a href="/" class="brand-link">
+            <img src="/dist/img/dws-logo.png" alt="DWS Logo" class="brand-image img-circle elevation-3"
+                 style="opacity: .8">
+            <span class="brand-text font-weight-light"><b>D</b>igitales<b>W</b>ahl<b>S</b>ystem</span>
+        </a>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <!-- Sidebar Menu -->
+            <nav class="mt-2">
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                    data-accordion="false">
+                    <% for (let i = 0; i < nav.length; i++) { %>
+                        <li class="nav-item">
+                            <a href="<%= nav[i].href %>"
+                               class="nav-link <% if (nav[i].filename === pagename) { %> active <% } %>">
+                                <i class="nav-icon fas <%= nav[i].icon %>"></i>
+                                <p>
+                                    <%= nav[i].title %>
+                                </p>
+                            </a>
+                        </li>
+                    <% } %>
+                </ul>
+            </nav>
+            <!-- /.sidebar-menu -->
+        </div>
+        <!-- /.sidebar -->
+    </aside>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>
+                            <%= title %>
+                        </h1>
+                    </div>
+                </div>
+            </div>
+            <!-- /.container-fluid -->
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+
+            <!-- Default box -->
+            <div class="card">
+                <div class="card-header">
+                    <h4>Abstimmungsergebnisse von "<%= vote.title%>".</h4>
+                    <p><strong>Frage/Thema:</strong> <%= vote.title%></p>
+                    <p style="margin-bottom: auto"><strong>Beschreibung:</strong> </p>
+                    <div class="input-group-text" style="margin-bottom: 6px">
+                        <%=vote.description%>
+                    </div>
+                    <p><strong>Erstellungdatum:</strong> <%= vote.creationDate.toLocaleDateString('de-DE', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' }); %></p>
+                    <p><strong>Abstimmungszeit:</strong> von <%= vote.date.startDate.toLocaleDateString('de-DE', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' }); %> bis <%= vote.date.endDate.toLocaleDateString('de-DE', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' }); %></p>
+                    <p><strong>Ergebnisse:</strong></p>
+                    <div>
+                        <canvas id="pieChart" class="chartjs-render-monitor"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+
+    <footer class="main-footer">
+        <strong>Copyright &copy; 2020 DWS Inc.</strong> All rights reserved.
+    </footer>
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
+</div>
+<!-- /wrapper -->
+
+<!-- jQuery -->
+<script src="/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="/dist/js/demo.js"></script>
+<!-- ChartJS -->
+<script src="/plugins/chart.js/Chart.min.js"></script>
+<script>
+    $(function () {
+        //-------------
+        //- PIE CHART -
+        //-------------
+        // Get context with jQuery - using jQuery's .get() method.
+        var pieChartCanvas = $('#pieChart').get(0).getContext('2d');
+        var pieData = {
+            labels: [
+                'Zustimmungen',
+                'Ablehnungen',
+                'Enthaltungen',
+            ],
+            datasets: [
+                {
+                    data: [<%=vote.votes.yes%>, <%=vote.votes.no%>, <%=vote.votes.abstention%>,],
+                    backgroundColor: ['#007b00','#ff0000','#c0c0c0'],
+                }
+            ]
+        };
+        var pieOptions = {
+            maintainAspectRatio: false,
+            responsive: true,
+        }
+        //Create pie or douhnut chart
+        // You can switch between pie and douhnut using the method below.
+        var pieChart = new Chart(pieChartCanvas, {
+            type: 'pie',
+            data: pieData,
+            options: pieOptions
+        })
+    })
+</script>
+</body>

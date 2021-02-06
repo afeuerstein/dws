@@ -45,7 +45,7 @@ module.exports.checkIfVoteRunning = (vote, i) => {
         //schedule unregistering the vote at .endDate
         var unregisterSchedule = schedule.scheduleJob(vote.date.endDate, () => {
             vote.isVoteRunning = false;
-            archiveVote(vote);
+            archiveVote(vote._id);
         });
         return false;
     }
@@ -57,11 +57,12 @@ module.exports.checkIfVoteRunning = (vote, i) => {
         vote.votes.yes = 0;
         vote.votes.no = 0;
         vote.votes.abstention = 0;
+        vote.votes.accounts = [];
         vote.save();
         //schedule unregistering the vote at .endDate
         var unregisterSchedule = schedule.scheduleJob(vote.date.endDate, () => {
             vote.isVoteRunning = false;
-            archiveVote(vote);
+            archiveVote(vote._id);
         });
         return true;
     }
@@ -69,21 +70,23 @@ module.exports.checkIfVoteRunning = (vote, i) => {
     //TODO: get all votes that should've already passed and move them into the archive
 }
 
-archiveVote = (vote) => {
-    var archivedVote = new ArchivedVote({
-        title: vote.title,
-        description: vote.description,
-        creationDate: vote.creationDate,
-        date: {
-            startDate: vote.date.startDate,
-            endDate: vote.date.endDate,
-        },
-        votes: {
-            yes: vote.votes.yes,
-            no: vote.votes.no,
-            abstention: vote.votes.abstention
-        }
+archiveVote = (id) => {
+    Vote.findById(id, (err, vote) => {
+        var archivedVote = new ArchivedVote({
+            title: vote.title,
+            description: vote.description,
+            creationDate: vote.creationDate,
+            date: {
+                startDate: vote.date.startDate,
+                endDate: vote.date.endDate,
+            },
+            votes: {
+                yes: vote.votes.yes,
+                no: vote.votes.no,
+                abstention: vote.votes.abstention
+            }
+        });
+        archivedVote.save();
+        vote.remove();
     });
-    archivedVote.save();
-    vote.remove();
 }

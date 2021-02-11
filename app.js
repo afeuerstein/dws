@@ -48,7 +48,9 @@ if (config.ssl) {
     });
 }
 
-app.use(morgan(chalk.blue.bold('  morgan ') + chalk.yellow(':method :url :status :res[content-length] - :response-time ms')));
+if (config.iplog === true) { var morganQuery = chalk.yellow(':remote-addr :method :url :status :res[content-length] - :response-time ms') } else var morganQuery = chalk.yellow(':method :url :status :res[content-length] - :response-time ms');
+app.use(morgan(chalk.blue.bold('  morgan ') + morganQuery));
+
 app.use(express.static(path.join(__dirname, '/public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));

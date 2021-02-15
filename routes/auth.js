@@ -5,6 +5,8 @@ const authRouter = express.Router();
 const fs = require('fs');
 const config = require('../config.json');
 var adminAuth = false;
+const tfaUtils = require('../util/2fa');
+const tfa = require('2fa');
 
 authRouter.get('/', function (req, res) {
     res.redirect('/auth/login');
@@ -23,7 +25,10 @@ authRouter.post('/register', (req, res) => {
             result.setPassword(req.body.password, () => {
                 result.save();
             });
-            res.redirect('/auth/login');
+            req.body.username = result.username;
+            req.logIn(result, (err) => {
+                return res.redirect('/auth/2fa/setup');
+            });
         } else {
             res.sendStatus(401);
         }
@@ -35,7 +40,17 @@ authRouter.get('/login', (req, res) => {
 });
 
 authRouter.post('/login', passport.authenticate('local'), (req, res) => {
-    res.redirect('/');
+    if(!req.body.totp) return res.sendStatus(401);
+    Account.find({username: req.body.username}, (err, docs) => {
+        if (docs.length !== 1) return res.send('Etwas ist schiefgelaufen.');
+        const user = docs[0];
+        const isValid = tfaUtils.checkCode(user, req.body.totp);
+        if (!isValid) {
+            req.logout();
+            return res.sendStatus(401);
+        }
+        res.redirect('/');
+    });
 });
 
 authRouter.get('/logout', function (req, res) {
@@ -89,6 +104,41 @@ authRouter.post('/admin2fa', (req, res) => {
         });
     } else {
         res.sendStatus(401);
+    }
+});
+
+authRouter.get('/2fa/setup', (req, res) => {
+        if (!req.user) return res.redirect('/auth/login');
+        if (req.user.tfa.active) return res.redirect('/auth/login');
+        if (req.query.secret) {
+            var key = req.query.secret;
+            req.user.tfa.secret = key;
+            req.user.save();
+            tfa.generateGoogleQR('DWS', req.user.username, key, {}, (err, qr) => {
+                res.render('auth/2fasetup', {
+                    qr,
+                    key: 'otpauth://totp/DWS:' + req.user.username + '?secret=' + key
+                });
+            });
+        } else {
+            tfa.generateKey(32, (err, key) => {
+                return res.redirect('?secret=' + key);
+            });
+        }
+    }
+);
+
+authRouter.post('/2fa/setup', (req, res) => {
+    if (!req.user) return res.redirect('/auth/login');
+    if (req.user.tfa.active) return res.redirect('/auth/login');
+    if (!req.body.totp) return res.sendStatus(400);
+    const isValid = tfaUtils.checkCode(req.user, req.body.totp);
+    if (isValid) {
+        req.user.tfa.active = true;
+        req.user.save();
+        res.redirect('/');
+    } else {
+        res.redirect('/auth/2fa/setup?secret=' + req.user.tfa.secret);
     }
 });
 

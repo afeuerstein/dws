@@ -75,6 +75,7 @@ adminRouter.post('/adduser', (req, res) => {
 adminRouter.get('/userdetail/:userID', (req, res) => {
     Account.findById(req.params.userID, (err, user) => {
         if (err) throw err;
+        if (!user) return res.sendStatus('404');
         qrcode.toDataURL('https://digitaleswahlsystem.de/auth/register?id=' + user.auth_id, (err, qr) => {
             res.render('admin/userdetail', {
                 title: 'Details  zu ' + user.lastname,

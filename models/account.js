@@ -10,6 +10,10 @@ var Account = new Schema({
     registration_status: { type: String, default: 'pending' },
     auth_id: String,
     admin: { type: Boolean, default: false },
+    tfa: {
+        active: {type: Boolean, default: false},
+        secret: String
+    },
 });
 
 Account.plugin(passportLocalMongoose);

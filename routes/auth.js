@@ -40,14 +40,16 @@ authRouter.get('/login', (req, res) => {
 });
 
 authRouter.post('/login', passport.authenticate('local'), (req, res) => {
-    if(!req.body.totp) return res.sendStatus(401);
     Account.find({username: req.body.username}, (err, docs) => {
         if (docs.length !== 1) return res.send('Etwas ist schiefgelaufen.');
         const user = docs[0];
-        const isValid = tfaUtils.checkCode(user, req.body.totp);
-        if (!isValid) {
-            req.logout();
-            return res.sendStatus(401);
+        if (user.admin !== true) {
+            if (!req.body.totp) return res.sendStatus(401);
+            const isValid = tfaUtils.checkCode(user, req.body.totp);
+            if (!isValid) {
+                req.logout();
+                return res.sendStatus(401);
+            }
         }
         res.redirect('/');
     });
